@@ -10,11 +10,7 @@ const AllocationForm = (props) => {
 
     const submitEvent = () => {
 
-            if(cost > remaining) {
-                alert("The value cannot exceed remaining funds  £"+remaining);
-                setCost("");
-                return;
-            }
+            
 
         const expense = {
             name: name,
@@ -26,12 +22,21 @@ const AllocationForm = (props) => {
                 payload: expense,
             });
         } else {
-                dispatch({
-                    type: 'ADD_EXPENSE',
-                    payload: expense,
-                });
+            if(cost > remaining) {
+                alert("The value cannot exceed remaining funds  £"+remaining);
+                setCost("");
+                return;
             }
+            dispatch({
+                type: 'ADD_EXPENSE',
+                payload: expense,
+            });
+        }
     };
+    const validateChange = (changeAmount) => {
+        alert("change"+changeAmount);
+        setCost(changeAmount);
+    }
 
     return (
         <div>
@@ -56,7 +61,7 @@ const AllocationForm = (props) => {
                   </div>
                   <select className="custom-select" id="inputGroupSelect02" onChange={(event) => setAction(event.target.value)}>
                         <option defaultValue value="Add" name="Add">Add</option>
-                <option value="Reduce" name="Reduce">Reduce</option>
+                        <option value="Reduce" name="Reduce">Reduce</option>
                   </select>
 
                     <input
@@ -66,7 +71,7 @@ const AllocationForm = (props) => {
                         value={cost}
                         style={{ marginLeft: '2rem' , size: 10}}
                         onChange={(event) => setCost(event.target.value)}>
-                        </input>
+                    </input>
 
                     <button className="btn btn-primary" onClick={submitEvent} style={{ marginLeft: '2rem' }}>
                         Save
